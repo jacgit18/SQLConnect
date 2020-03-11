@@ -13,6 +13,8 @@ namespace CustomersDB
 {
     public partial class Form1 : Form
     {
+        DataTable mytable;
+
         public Form1()
         {
             InitializeComponent();
@@ -80,11 +82,22 @@ namespace CustomersDB
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycommand;
 
-            DataTable mydt;
-            mydt = new DataTable();
-            myadapter.Fill(mydt);
+            mytable = new DataTable();
+            myadapter.Fill(mytable);
 
-            dataGridView1.DataSource = mydt;
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = mytable;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(mytable.Rows[1].ItemArray[2].ToString());
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+           mytable.Rows[1].SetField(2, "ABC");
+
         }
     }
 }
