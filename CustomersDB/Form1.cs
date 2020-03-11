@@ -13,7 +13,7 @@ namespace CustomersDB
 {
     public partial class Form1 : Form
     {
-        DataTable mytable;
+        DataTable mytable = new DataTable();
 
         public Form1()
         {
@@ -22,7 +22,7 @@ namespace CustomersDB
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            //  Establish a connection and pick file location
             SqlConnection myconn;
             myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
@@ -54,6 +54,7 @@ namespace CustomersDB
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            //  Establish a connection and pick file location
             SqlConnection myconn;
             myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
