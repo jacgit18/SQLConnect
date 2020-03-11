@@ -20,16 +20,19 @@ namespace CustomersDB
 
         private void button1_Click(object sender, EventArgs e)
         {
+
             SqlConnection myconn;
             myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
          
+            // make an sql command object
             SqlCommand mycmd;
             mycmd = new SqlCommand();
             mycmd.CommandText = "Select * from Customer_T";
             mycmd.Connection = myconn;
 
+            // create an adapter (message carrying are request)
             SqlDataAdapter myadapter;
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycmd;
@@ -55,14 +58,27 @@ namespace CustomersDB
             myconn.Open();
 
 
-            SqlCommand mycmd;
-            mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
-            mycmd.Connection = myconn;
+            //SqlCommand mycmd;
+            // mycmd = new SqlCommand();
+            // mycmd.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
+
+
+            SqlCommand mycommand = new SqlCommand();
+            mycommand.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
+
+
+            mycommand.CommandText = "Select * from Customer_T where CustomerState = @state and CustomerName like @name";
+            mycommand.Parameters.Add("@state", SqlDbType.NChar, 20);
+            mycommand.Parameters["@state"].Value = textBox1.Text;
+
+
+            mycommand.Parameters.Add("@name", SqlDbType.NVarChar, 50);
+            mycommand.Parameters["@name"].Value = "%" + textBox2.Text + "%";
+            mycommand.Connection = myconn;
 
             SqlDataAdapter myadapter;
             myadapter = new SqlDataAdapter();
-            myadapter.SelectCommand = mycmd;
+            myadapter.SelectCommand = mycommand;
 
             DataTable mydt;
             mydt = new DataTable();
