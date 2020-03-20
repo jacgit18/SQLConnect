@@ -25,7 +25,7 @@ namespace CustomersDB
             //  Establish a connection and pick file location
             SqlConnection myconn;
             myconn = new SqlConnection();
-            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
          
             // make an sql command object
