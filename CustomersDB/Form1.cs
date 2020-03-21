@@ -67,10 +67,10 @@ namespace CustomersDB
 
 
             SqlCommand mycommand = new SqlCommand();
-            mycommand.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
+            mycommand.CommandText = "Select * from Order_T where OrderID = '" + textBox1.Text + "'";
 
 
-            mycommand.CommandText = "Select * from Customer_T where CustomerState = @state and CustomerName like @name";
+            mycommand.CommandText = "Select * from Order_T where OrderDate = @state and CustomerName like @name";
             mycommand.Parameters.Add("@state", SqlDbType.NChar, 20);
             mycommand.Parameters["@state"].Value = textBox1.Text;
 
