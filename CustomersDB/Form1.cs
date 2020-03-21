@@ -31,7 +31,7 @@ namespace CustomersDB
             // make an sql command object
             SqlCommand mycmd;
             mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Customer_T";
+            mycmd.CommandText = "Select * from Order_T";
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
