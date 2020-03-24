@@ -31,7 +31,9 @@ namespace CustomersDB
             // make an sql command object
             SqlCommand mycmd;
             mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Order_T";
+            mycmd.CommandText = "Select * from Order_T where OrderID = @orderid";
+            mycmd.Parameters.Add("@orderid", SqlDbType.NVarChar, 30);
+            mycmd.Parameters["@orderid"].Value = textBox1.Text;
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
@@ -39,11 +41,12 @@ namespace CustomersDB
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycmd;
 
-            DataTable mydt;
-            mydt = new DataTable();
-            myadapter.Fill(mydt);
 
-            dataGridView1.DataSource = mydt;
+
+            myadapter.Fill(mytable);
+
+            dataGridView1.AutoGenerateColumns = false;
+            dataGridView1.DataSource = mytable;
 
         }
 
@@ -55,39 +58,39 @@ namespace CustomersDB
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //  Establish a connection and pick file location
-            SqlConnection myconn;
-            myconn = new SqlConnection();
-            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
-            myconn.Open();
+          //  SqlConnection myconn;
+          //  myconn = new SqlConnection();
+          //  myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+          //  myconn.Open();
 
 
-            //SqlCommand mycmd;
-            // mycmd = new SqlCommand();
-            // mycmd.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
+          //  //SqlCommand mycmd;
+          //  // mycmd = new SqlCommand();
+          //  // mycmd.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
 
 
-            SqlCommand mycommand = new SqlCommand();
-            mycommand.CommandText = "Select * from Order_T where OrderID = '" + textBox1.Text + "'";
+          //  SqlCommand mycommand = new SqlCommand();
+          //  mycommand.CommandText = "Select * from Order_T where OrderID = '" + textBox1.Text + "'";
 
 
-            mycommand.CommandText = "Select * from Order_T where OrderDate = @state and CustomerName like @name";
-            mycommand.Parameters.Add("@state", SqlDbType.NChar, 20);
-            mycommand.Parameters["@state"].Value = textBox1.Text;
+          //  mycommand.CommandText = "Select * from Order_T where OrderDate = @state and CustomerID like @name";
+          //  mycommand.Parameters.Add("@state", SqlDbType.NVarChar, 50);
+          //  mycommand.Parameters["@state"].Value = textBox1.Text;
 
 
-            mycommand.Parameters.Add("@name", SqlDbType.NVarChar, 50);
-            mycommand.Parameters["@name"].Value = "%" + textBox2.Text + "%";
-            mycommand.Connection = myconn;
+          //  mycommand.Parameters.Add("@name", SqlDbType.NVarChar, 50);
+          //  mycommand.Parameters["@name"].Value = "%" + textBox2.Text + "%";
+          //  mycommand.Connection = myconn;
 
-            SqlDataAdapter myadapter;
-            myadapter = new SqlDataAdapter();
-            myadapter.SelectCommand = mycommand;
+          //  SqlDataAdapter myadapter;
+          //  myadapter = new SqlDataAdapter();
+          //  myadapter.SelectCommand = mycommand;
 
-            mytable = new DataTable();
-            myadapter.Fill(mytable);
+          ////  mytable = new DataTable();
+          //     myadapter.Fill(mytable);
 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = mytable;
+          //  dataGridView1.AutoGenerateColumns = false;
+          //  dataGridView1.DataSource = mytable;
         }
 
         private void button2_Click(object sender, EventArgs e)
