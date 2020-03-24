@@ -39,6 +39,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.DbUpdate = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -140,11 +141,22 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // DbUpdate
+            // 
+            this.DbUpdate.Location = new System.Drawing.Point(692, 462);
+            this.DbUpdate.Name = "DbUpdate";
+            this.DbUpdate.Size = new System.Drawing.Size(75, 23);
+            this.DbUpdate.TabIndex = 8;
+            this.DbUpdate.Text = "Update";
+            this.DbUpdate.UseVisualStyleBackColor = true;
+            this.DbUpdate.Click += new System.EventHandler(this.DbUpdate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(754, 507);
+            this.ClientSize = new System.Drawing.Size(822, 507);
+            this.Controls.Add(this.DbUpdate);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label2);
@@ -176,6 +188,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button DbUpdate;
     }
 }
 

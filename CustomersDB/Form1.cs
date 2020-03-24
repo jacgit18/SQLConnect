@@ -14,6 +14,7 @@ namespace CustomersDB
     public partial class Form1 : Form
     {
         DataTable mytable = new DataTable();
+        SqlConnection myconn = new SqlConnection();
 
         public Form1()
         {
@@ -23,8 +24,7 @@ namespace CustomersDB
         private void button1_Click(object sender, EventArgs e)
         {
             //  Establish a connection and pick file location
-            SqlConnection myconn;
-            myconn = new SqlConnection();
+            SqlConnection myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
          
@@ -55,9 +55,9 @@ namespace CustomersDB
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             //  Establish a connection and pick file location
-            SqlConnection myconn;
-            myconn = new SqlConnection();
-            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\joshu\\Downloads\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+            SqlConnection myconn = new SqlConnection();
+
+            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
 
@@ -99,6 +99,32 @@ namespace CustomersDB
         {
            mytable.Rows[1].SetField(2, "ABC");
 
+        }
+
+        private void DbUpdate_Click(object sender, EventArgs e)
+
+        {
+            SqlConnection myconn = new SqlConnection();
+            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+            myconn.Open();
+
+            SqlCommand updcmd;
+            updcmd = new SqlCommand();
+            updcmd.Connection = myconn;
+            updcmd.CommandText = "Update Customer_T set CustomerName = @customername " + "where CustomerID = @customerid";
+            updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
+            updcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
+            SqlDataAdapter myadapter = new SqlDataAdapter();
+            myadapter.UpdateCommand = updcmd;
+
+            SqlCommand delcmd;
+            delcmd = new SqlCommand();
+            delcmd.Connection = myconn;
+            delcmd.CommandText = "Delete Customer_T where CustomerID = @customerid ";
+            delcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
+
+            myadapter.DeleteCommand = delcmd;
+            myadapter.Update(mytable);
         }
     }
 }
