@@ -33,24 +33,24 @@ namespace CustomersDB
             // make an sql command object
             mycmd = new SqlCommand();
             // Find out how to get search working in one text box 
-            //mycmd.CommandText = "Select * from Order_T ";
             
-            String query1 = mycmd.CommandText = "Select * from Order_T where OrderID = @my_order_id";
-           
+            String query1 = mycmd.CommandText = "Select * from Order_T where OrderID = @my_order_id and CustomerID like  @my_customer_id";
+            String all = mycmd.CommandText = "Select * from Order_T ";
             mycmd.Parameters.Add("@my_order_id", SqlDbType.NVarChar, 30);
             mycmd.Parameters["@my_order_id"].Value = textBox1.Text;
             //mycmd.Parameters.Add(query1, SqlDbType.NVarChar, 30);
             //mycmd.Parameters[query1].Value = textBox1.Text;
 
-
-            String query2 = mycmd.CommandText = "Select * from Order_T where OrderDate = @order_date";
-            mycmd.Parameters.Add("@order_date", SqlDbType.NVarChar, 30);
-            mycmd.Parameters["@order_date"].Value = textBox2.Text;
-
-
-            String query3 = mycmd.CommandText = "Select * from Order_T where CustomerID = @my_customer_id";
+            String query2 = mycmd.CommandText = "Select * from Order_T where CustomerID = @my_customer_id";
             mycmd.Parameters.Add("@my_customer_id", SqlDbType.NVarChar, 30);
-            mycmd.Parameters["@my_customer_id"].Value = textBox3.Text;
+            mycmd.Parameters["@my_customer_id"].Value = textBox2.Text;
+
+
+            String query3 = mycmd.CommandText = "Select * from Order_T where OrderDate = @order_date";
+            mycmd.Parameters.Add("@order_date", SqlDbType.NVarChar, 30);
+            mycmd.Parameters["@order_date"].Value = textBox3.Text;
+
+
 
 
             mycmd.Connection = myconn;
