@@ -15,6 +15,8 @@ namespace CustomersDB
     {
         SqlDataAdapter myadapter;
         DataTable mytable;
+        SqlConnection myconn;
+        SqlCommand mycmd;
 
         public Form1()
         {
@@ -24,19 +26,21 @@ namespace CustomersDB
         private void button1_Click(object sender, EventArgs e)
         {
             //  Establish a connection and pick file location
-            SqlConnection myconn;
             myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
          
             // make an sql command object
-            SqlCommand mycmd;
             mycmd = new SqlCommand();
             // Find out how to get search working in one text box 
             //mycmd.CommandText = "Select * from Order_T ";
+            
             String query1 = mycmd.CommandText = "Select * from Order_T where OrderID = @my_order_id";
+           
             mycmd.Parameters.Add("@my_order_id", SqlDbType.NVarChar, 30);
             mycmd.Parameters["@my_order_id"].Value = textBox1.Text;
+            //mycmd.Parameters.Add(query1, SqlDbType.NVarChar, 30);
+            //mycmd.Parameters[query1].Value = textBox1.Text;
 
 
             String query2 = mycmd.CommandText = "Select * from Order_T where OrderDate = @order_date";
