@@ -13,7 +13,8 @@ namespace CustomersDB
 {
     public partial class Form1 : Form
     {
-        DataTable mytable = new DataTable();
+        SqlDataAdapter myadapter;
+        DataTable mytable;
 
         public Form1()
         {
@@ -31,21 +32,33 @@ namespace CustomersDB
             // make an sql command object
             SqlCommand mycmd;
             mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Order_T where OrderID = @orderid";
-            mycmd.Parameters.Add("@orderid", SqlDbType.NVarChar, 30);
-            mycmd.Parameters["@orderid"].Value = textBox1.Text;
+            // Find out how to get search working in one text box 
+            //mycmd.CommandText = "Select * from Order_T ";
+            String query1 = mycmd.CommandText = "Select * from Order_T where OrderID = @my_order_id";
+            mycmd.Parameters.Add("@my_order_id", SqlDbType.NVarChar, 30);
+            mycmd.Parameters["@my_order_id"].Value = textBox1.Text;
+
+
+            String query2 = mycmd.CommandText = "Select * from Order_T where OrderDate = @order_date";
+            mycmd.Parameters.Add("@order_date", SqlDbType.NVarChar, 30);
+            mycmd.Parameters["@order_date"].Value = textBox2.Text;
+
+
+            String query3 = mycmd.CommandText = "Select * from Order_T where CustomerID = @my_customer_id";
+            mycmd.Parameters.Add("@my_customer_id", SqlDbType.NVarChar, 30);
+            mycmd.Parameters["@my_customer_id"].Value = textBox3.Text;
+
+
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
-            SqlDataAdapter myadapter;
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycmd;
 
-
-
+            mytable = new DataTable();
             myadapter.Fill(mytable);
 
-            dataGridView1.AutoGenerateColumns = false;
+            //dataGridView1.AutoGenerateColumns = false;
             dataGridView1.DataSource = mytable;
 
         }
@@ -57,6 +70,11 @@ namespace CustomersDB
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+
+
+
+
+
             //  Establish a connection and pick file location
           //  SqlConnection myconn;
           //  myconn = new SqlConnection();
