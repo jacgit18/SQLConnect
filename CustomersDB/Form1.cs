@@ -111,7 +111,11 @@ namespace CustomersDB
             SqlCommand updcmd;
             updcmd = new SqlCommand();
             updcmd.Connection = myconn;
-            updcmd.CommandText = "Update Customer_T set CustomerName = @customername " + "where CustomerID = @customerid";
+            updcmd.CommandText = "Update Customer_T set CustomerName = @customername " + "where CustomerID = @customerid and"
+                ;
+            updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
+
+
             updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
             updcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
             SqlDataAdapter myadapter = new SqlDataAdapter();
