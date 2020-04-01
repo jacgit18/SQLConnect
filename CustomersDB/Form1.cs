@@ -130,9 +130,24 @@ namespace CustomersDB
             delcmd.Connection = myconn;
             delcmd.CommandText = "Delete Customer_T where CustomerID = @customerid ";
             delcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
-
             myadapter.DeleteCommand = delcmd;
-            myadapter.Update(mytable);
+
+            // changinging data is important take into account if data is link like if you change data of someone in a
+            // insurance database
+            // you wouldnt want update to continue if there are multiple updates being done at same time then system try to update 
+            // the same time you would want it to stop and not continue or but if rows and changes are indepent you would
+            // want updates to continue since they arent related thus you wont get alot of problems 
+            myadapter.ContinueUpdateOnError = true;
+            try
+            {
+                myadapter.Update(mytable);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database has been updated - please refill grid and make updates ");
+            }
+
         }
     }
 }
