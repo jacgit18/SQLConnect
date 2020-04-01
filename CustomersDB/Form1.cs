@@ -13,8 +13,9 @@ namespace CustomersDB
 {
     public partial class Form1 : Form
     {
-        DataTable mytable = new DataTable();
         SqlConnection myconn = new SqlConnection();
+        DataTable mytable = new DataTable();
+        SqlDataAdapter myadapter = new SqlDataAdapter();
 
         public Form1()
         {
@@ -35,15 +36,13 @@ namespace CustomersDB
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
-            SqlDataAdapter myadapter;
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycmd;
 
-            DataTable mydt;
-            mydt = new DataTable();
-            myadapter.Fill(mydt);
+            mytable = new DataTable();
+            myadapter.Fill(mytable);
 
-            dataGridView1.DataSource = mydt;
+            dataGridView1.DataSource = mytable;
 
         }
 
@@ -67,10 +66,14 @@ namespace CustomersDB
 
 
             SqlCommand mycommand = new SqlCommand();
-            mycommand.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
+            //mycommand.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
 
 
             mycommand.CommandText = "Select * from Customer_T where CustomerState = @state and CustomerName like @name";
+            mycommand.CommandText = "Select * from Customer_T";
+
+
+
             mycommand.Parameters.Add("@state", SqlDbType.NChar, 20);
             mycommand.Parameters["@state"].Value = textBox1.Text;
 
@@ -79,7 +82,6 @@ namespace CustomersDB
             mycommand.Parameters["@name"].Value = "%" + textBox2.Text + "%";
             mycommand.Connection = myconn;
 
-            SqlDataAdapter myadapter;
             myadapter = new SqlDataAdapter();
             myadapter.SelectCommand = mycommand;
 
@@ -112,13 +114,15 @@ namespace CustomersDB
             updcmd = new SqlCommand();
             updcmd.Connection = myconn;
             updcmd.CommandText = "Update Customer_T set CustomerName = @customername " + "where CustomerID = @customerid and"
-                ;
-            updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
+             + " CustomerVersion = @version";
+
+            updcmd.Parameters.Add("@version", SqlDbType.Binary, 50, "CustomerVersion");
+
+
 
 
             updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
             updcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
-            SqlDataAdapter myadapter = new SqlDataAdapter();
             myadapter.UpdateCommand = updcmd;
 
             SqlCommand delcmd;

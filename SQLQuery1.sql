@@ -1,17 +1,13 @@
-﻿Select * from Customer_T
+﻿Update Customer_T set CustomerName = 'joe' where 
+CustomerID = 2 and VersionNumber = 5
 
-Update Customer_T set CustomerName = 'ContemporaryCausals', CustomerAddress= '1355 S Hines BLVD', CustomerCity = 'Gainesville', CustomerState='NY',
-CustomerPostalCode= '326012871' where 
-CustomerID = 1
-
-
-Update Customer_T set CustomerName = @customername where 
-CustomerID = @customerid and VersionNumber = @version
+--Customer ID : 2  Name:Smith   Version : 5  when we did select
 
 
+--Customer ID : 2  Name:Smith   Version : 6  when we do update 1 records updated
 
-Update Customer_T set CustomerCity = 'Dallas' where 
-CustomerID = 2
+--..others have updated the record
+--Customer ID : 2  Name:jack   Version : 6  when we do update 0 records updated
 
-Update Customer_T set CustomerName = 'Jones', CustomerCity ='NYC' where 
-CustomerID = 3
+---  Version parm is the Version number of the record when we did thhe select
+
