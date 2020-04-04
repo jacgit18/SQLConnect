@@ -28,11 +28,11 @@ namespace CustomersDB
             SqlConnection myconn = new SqlConnection();
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
-         
+
             // make an sql command object
             SqlCommand mycmd;
             mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Customer_T";
+            mycmd.CommandText = "Select * from Employee_T";
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
@@ -60,17 +60,11 @@ namespace CustomersDB
             myconn.Open();
 
 
-            //SqlCommand mycmd;
-            // mycmd = new SqlCommand();
-            // mycmd.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
-
-
             SqlCommand mycommand = new SqlCommand();
-            //mycommand.CommandText = "Select * from Customer_T where CustomerState = '" + textBox1.Text + "'";
 
 
-            mycommand.CommandText = "Select * from Customer_T where CustomerState = @state and CustomerName like @name";
-            mycommand.CommandText = "Select * from Customer_T";
+            mycommand.CommandText = "Select * from Employee_T where EmployeeState = @state and EmployeeName like @name";
+            mycommand.CommandText = "Select * from Employee_T";
 
 
 
@@ -99,7 +93,7 @@ namespace CustomersDB
 
         private void button3_Click(object sender, EventArgs e)
         {
-           mytable.Rows[1].SetField(2, "ABC");
+            mytable.Rows[1].SetField(2, "ABC");
 
         }
 
@@ -113,23 +107,23 @@ namespace CustomersDB
             SqlCommand updcmd;
             updcmd = new SqlCommand();
             updcmd.Connection = myconn;
-            updcmd.CommandText = "Update Customer_T set CustomerName = @customername " + "where CustomerID = @customerid and"
-             + " CustomerVersion = @version";
+            updcmd.CommandText = "Update Employee_T set EmployeeName = @employeename " + "where EmployeeID = @employeeid and"
+             + " EmployeeVersion = @version";
 
-            updcmd.Parameters.Add("@version", SqlDbType.Binary, 50, "CustomerVersion");
-
-
+            updcmd.Parameters.Add("@version", SqlDbType.Binary, 50, "EmployeeVersion");
 
 
-            updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
-            updcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
+
+
+            updcmd.Parameters.Add("@employeename", SqlDbType.NVarChar, 50, "EmployeeName");
+            updcmd.Parameters.Add("@employeeid", SqlDbType.Int, 50, "EmployeeID");
             myadapter.UpdateCommand = updcmd;
 
             SqlCommand delcmd;
             delcmd = new SqlCommand();
             delcmd.Connection = myconn;
-            delcmd.CommandText = "Delete Customer_T where CustomerID = @customerid ";
-            delcmd.Parameters.Add("@customerid", SqlDbType.Int, 50, "CustomerID");
+            delcmd.CommandText = "Delete Employee_T where EmployeeID = @employeeid ";
+            delcmd.Parameters.Add("@employeeid", SqlDbType.Int, 50, "EmployeeID");
             myadapter.DeleteCommand = delcmd;
 
             // changinging data is important take into account if data is link like if you change data of someone in a
