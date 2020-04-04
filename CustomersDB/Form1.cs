@@ -11,6 +11,11 @@ using System.Data.SqlClient;
 
 namespace CustomersDB
 {
+    // Make a desktop application that maintains the data in the Employee Table.
+    // Make a FILL button to search on a value contained in the Employee Name.
+    // Your application should be able to add, delete and update, and check 
+    // for concurrency.Also, see what happens if you put a Supervisor ID 
+    // that is not in the table(foreign-key reference error).
     public partial class Form1 : Form
     {
         SqlConnection myconn = new SqlConnection();
