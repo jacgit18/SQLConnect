@@ -118,7 +118,6 @@ namespace CustomersDB
 
             updcmd.Parameters.Add("@version", SqlDbType.Binary, 50, "CustomerVersion");
 
-            // locking record temporary for changes but locks can be buggy
 
 
             updcmd.Parameters.Add("@customername", SqlDbType.NVarChar, 50, "CustomerName");
