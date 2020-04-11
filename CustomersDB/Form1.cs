@@ -18,26 +18,38 @@ namespace CustomersDB
     // that is not in the table(foreign-key reference error).
     public partial class Form1 : Form
     {
-        SqlConnection myconn = new SqlConnection();
-        DataTable mytable = new DataTable();
-        SqlDataAdapter myadapter = new SqlDataAdapter();
+        DataTable mytable;
+        SqlDataAdapter myadapter;
+        SqlCommand updcmd;
+        SqlCommand delcmd;
+        SqlCommand mycmd;
+        SqlCommand mycommand;
+        SqlCommand insertcmd;
+        SqlTransaction myTrans;
+
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        // fill Button
         private void button1_Click(object sender, EventArgs e)
         {
-            //  Establish a connection and pick file location
             SqlConnection myconn = new SqlConnection();
+
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
             // make an sql command object
-            SqlCommand mycmd;
             mycmd = new SqlCommand();
-            mycmd.CommandText = "Select * from Employee_T";
+            mycmd.CommandText = "Select * from Employee_T where EmployeeName = @name";
+
+
+            mycmd.Parameters.Add("@name", SqlDbType.NChar, 20);
+            mycmd.Parameters["@name"].Value = textBox1.Text;
+
+
             mycmd.Connection = myconn;
 
             // create an adapter (message carrying are request)
@@ -58,27 +70,25 @@ namespace CustomersDB
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            //  Establish a connection and pick file location
             SqlConnection myconn = new SqlConnection();
 
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
 
-            SqlCommand mycommand = new SqlCommand();
+            mycommand = new SqlCommand();
 
 
             mycommand.CommandText = "Select * from Employee_T where EmployeeState = @state and EmployeeName like @name";
             mycommand.CommandText = "Select * from Employee_T";
 
-
+            mycommand.Parameters.Add("@name", SqlDbType.NVarChar, 50);
+            mycommand.Parameters["@name"].Value = "%" + textBox1.Text + "%";
 
             mycommand.Parameters.Add("@state", SqlDbType.NChar, 20);
-            mycommand.Parameters["@state"].Value = textBox1.Text;
+            mycommand.Parameters["@state"].Value = textBox2.Text;
 
 
-            mycommand.Parameters.Add("@name", SqlDbType.NVarChar, 50);
-            mycommand.Parameters["@name"].Value = "%" + textBox2.Text + "%";
             mycommand.Connection = myconn;
 
             myadapter = new SqlDataAdapter();
@@ -98,7 +108,43 @@ namespace CustomersDB
 
         private void button3_Click(object sender, EventArgs e)
         {
-            mytable.Rows[1].SetField(2, "ABC");
+            SqlConnection myconn = new SqlConnection();
+
+            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+            myconn.Open();
+
+            insertcmd = new SqlCommand();
+            insertcmd.Connection = myconn;
+
+            insertcmd.CommandText = "Insert Into Employee_T Values (@id,@name,@address," +
+                "@city,@state,@zip_code,@supervisor,@date_hired)";
+
+            insertcmd.Parameters.Add("@id", SqlDbType.NVarChar, 50, "EmployeeID");
+            insertcmd.Parameters.Add("@name", SqlDbType.NVarChar, 50, "EmployeeName");
+            insertcmd.Parameters.Add("@address", SqlDbType.NVarChar, 50, "EmployeeAddress");
+            insertcmd.Parameters.Add("@city", SqlDbType.NVarChar, 50, "EmployeeCity");
+            insertcmd.Parameters.Add("@state", SqlDbType.NVarChar, 2, "EmployeeState");
+            insertcmd.Parameters.Add("@zip_code", SqlDbType.NVarChar, 10, "EmployeeZipCode");
+            insertcmd.Parameters.Add("@supervisor", SqlDbType.NVarChar, 10, "EmployeeSupervisor");
+            insertcmd.Parameters.Add("@date_hired", SqlDbType.DateTime, 11, "EmployeeDateHired");
+
+            myadapter = new SqlDataAdapter();
+            myadapter.InsertCommand = insertcmd;
+
+
+
+
+
+            try
+            {
+                myadapter.Update(mytable);
+                MessageBox.Show("Data Inserted ");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Invalid Insert ");
+            }
 
         }
 
@@ -109,27 +155,24 @@ namespace CustomersDB
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
-            SqlCommand updcmd;
+            myTrans = myconn.BeginTransaction(IsolationLevel.ReadUncommitted);
+
             updcmd = new SqlCommand();
             updcmd.Connection = myconn;
-            updcmd.CommandText = "Update Employee_T set EmployeeName = @employeename " + "where EmployeeID = @employeeid and"
+            updcmd.Transaction = myTrans;
+
+
+
+            updcmd.CommandText = "Update Employee_T set EmployeeName = @name " + "where EmployeeID = @id and"
              + " EmployeeVersion = @version";
 
             updcmd.Parameters.Add("@version", SqlDbType.Binary, 50, "EmployeeVersion");
+            updcmd.Parameters.Add("@name", SqlDbType.NVarChar, 50, "EmployeeName");
+            updcmd.Parameters.Add("@id", SqlDbType.Int, 50, "EmployeeID");
 
-
-
-
-            updcmd.Parameters.Add("@employeename", SqlDbType.NVarChar, 50, "EmployeeName");
-            updcmd.Parameters.Add("@employeeid", SqlDbType.Int, 50, "EmployeeID");
             myadapter.UpdateCommand = updcmd;
 
-            SqlCommand delcmd;
-            delcmd = new SqlCommand();
-            delcmd.Connection = myconn;
-            delcmd.CommandText = "Delete Employee_T where EmployeeID = @employeeid ";
-            delcmd.Parameters.Add("@employeeid", SqlDbType.Int, 50, "EmployeeID");
-            myadapter.DeleteCommand = delcmd;
+           
 
             // changinging data is important take into account if data is link like if you change data of someone in a
             // insurance database
@@ -144,7 +187,48 @@ namespace CustomersDB
             }
             catch (Exception ex)
             {
+                myTrans.Rollback();
                 MessageBox.Show("Database has been updated - please refill grid and make updates ");
+            }
+
+        }
+
+        private void CommitBT_Click(object sender, EventArgs e)
+        {
+            myTrans.Commit();
+
+        }
+
+        private void DeleteBT_Click(object sender, EventArgs e)
+        {
+
+            SqlConnection myconn = new SqlConnection();
+            myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
+            myconn.Open();
+
+
+            delcmd = new SqlCommand();
+            delcmd.Connection = myconn;
+
+
+            delcmd.CommandText = "Delete Employee_T where EmployeeName = @name ";
+
+            delcmd.Parameters.Add("@name", SqlDbType.Int, 50, "EmployeeID");
+            delcmd.Parameters["@name"].Value = textBox1.Text;
+
+            myadapter = new SqlDataAdapter();
+
+            myadapter.DeleteCommand = delcmd;
+
+
+            try
+            {
+                myadapter.Update(mytable);
+                MessageBox.Show("Data row deleted.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unable to delete the row");
             }
 
         }
