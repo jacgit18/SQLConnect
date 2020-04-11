@@ -31,6 +31,7 @@ namespace CustomersDB
         public Form1()
         {
             InitializeComponent();
+
         }
 
         // fill Button
