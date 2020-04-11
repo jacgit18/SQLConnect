@@ -114,20 +114,36 @@ namespace CustomersDB
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
-            insertcmd = new SqlCommand();
-            insertcmd.Connection = myconn;
+            //SqlDataAdapter adapter = new SqldataAdapter(“select * from titles server = localhost database = pubs; uid = mukka; pwd =“);
+            //DataSet ds = new dataSet();
+            //adapter.Fill(ds. “Titles”);
 
-            insertcmd.CommandText = "Insert Into Employee_T Values (@id,@name,@address," +
-                "@city,@state,@zip_code,@supervisor,@date_hired)";
+            //DataTable table ds.Tables[“Titles”];
+            //DataRow row = table.NewRow();
+            //row[“title_id”] = “CS795”;
+            //row[“title”] = “.Net Security”;
+            //row[“price”] =“70.99”;
+            //Table.Rows.Add(row);
 
-            insertcmd.Parameters.Add("@id", SqlDbType.NVarChar, 50, "EmployeeID");
-            insertcmd.Parameters.Add("@name", SqlDbType.NVarChar, 50, "EmployeeName");
-            insertcmd.Parameters.Add("@address", SqlDbType.NVarChar, 50, "EmployeeAddress");
-            insertcmd.Parameters.Add("@city", SqlDbType.NVarChar, 50, "EmployeeCity");
-            insertcmd.Parameters.Add("@state", SqlDbType.NVarChar, 2, "EmployeeState");
-            insertcmd.Parameters.Add("@zip_code", SqlDbType.NVarChar, 10, "EmployeeZipCode");
-            insertcmd.Parameters.Add("@supervisor", SqlDbType.NVarChar, 10, "EmployeeSupervisor");
-            insertcmd.Parameters.Add("@date_hired", SqlDbType.DateTime, 11, "EmployeeDateHired");
+
+
+            //insertcmd = new SqlCommand();
+            //insertcmd.Connection = myconn;
+
+            //insertcmd.CommandText = "Insert Into Employee_T Values (@id,@name,@address," +
+            //    "@city,@state,@zip_code,@supervisor,@date_hired)";
+
+            //insertcmd.Parameters.Add("@id", SqlDbType.NVarChar, 50, "EmployeeID");
+            //mytable.Rows[2].SetField(0, "344-36-532");
+            mytable.Rows[3].SetField(1, "ABC");
+
+            //insertcmd.Parameters.Add("@name", SqlDbType.NVarChar, 50, "EmployeeName");
+            //insertcmd.Parameters.Add("@address", SqlDbType.NVarChar, 50, "EmployeeAddress");
+            //insertcmd.Parameters.Add("@city", SqlDbType.NVarChar, 50, "EmployeeCity");
+            //insertcmd.Parameters.Add("@state", SqlDbType.NVarChar, 2, "EmployeeState");
+            //insertcmd.Parameters.Add("@zip_code", SqlDbType.NVarChar, 10, "EmployeeZipCode");
+            //insertcmd.Parameters.Add("@supervisor", SqlDbType.NVarChar, 10, "EmployeeSupervisor");
+            //insertcmd.Parameters.Add("@date_hired", SqlDbType.DateTime, 11, "EmployeeDateHired");
 
             myadapter = new SqlDataAdapter();
             myadapter.InsertCommand = insertcmd;
