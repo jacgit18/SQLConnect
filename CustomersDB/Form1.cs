@@ -110,56 +110,56 @@ namespace CustomersDB
         private void button3_Click(object sender, EventArgs e)
         {
             SqlConnection myconn = new SqlConnection();
+            SqlTransaction myTrans;
 
             myconn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\pvfc\\PVFC.mdf;Integrated Security=True;Connect Timeout=30";
             myconn.Open();
 
-            //SqlDataAdapter adapter = new SqldataAdapter(“select * from titles server = localhost database = pubs; uid = mukka; pwd =“);
-            //DataSet ds = new dataSet();
-            //adapter.Fill(ds. “Titles”);
+            SqlCommand insertdb;
+            insertdb = new SqlCommand();
 
-            //DataTable table ds.Tables[“Titles”];
-            //DataRow row = table.NewRow();
-            //row[“title_id”] = “CS795”;
-            //row[“title”] = “.Net Security”;
-            //row[“price”] =“70.99”;
-            //Table.Rows.Add(row);
+            myTrans = myconn.BeginTransaction();
+
+            insertdb.Connection = myconn;
+            insertdb.Transaction = myTrans;
+
+            insertdb.CommandText = "INSERT INTO Employee_T (EmployeeID, EmployeeName, EmployeeAddress, EmployeeCity, EmployeeState," +
+                " EmployeeZipCode, EmployeeSupervisor, EmployeeDateHired) VALUES (@Id, @Name, @Address, @City, @State, @Zip, @Supervisor, @DateHired";
+
+            insertdb.Parameters.Add("@Id", SqlDbType.Int, 50);
+            insertdb.Parameters.Add("@Name", SqlDbType.NVarChar, 50);
+            insertdb.Parameters.Add("@Address", SqlDbType.NVarChar, 50);
+            insertdb.Parameters.Add("@City", SqlDbType.NVarChar, 50);
+            insertdb.Parameters.Add("@State", SqlDbType.NVarChar, 2);
+            insertdb.Parameters.Add("@Zip", SqlDbType.NVarChar, 9);
+            insertdb.Parameters.Add("@Supervisor", SqlDbType.NVarChar, 50);
+            insertdb.Parameters.Add("@DateHired", SqlDbType.NVarChar, 50);
 
 
 
-            //insertcmd = new SqlCommand();
-            //insertcmd.Connection = myconn;
-
-            //insertcmd.CommandText = "Insert Into Employee_T Values (@id,@name,@address," +
-            //    "@city,@state,@zip_code,@supervisor,@date_hired)";
-
-            //insertcmd.Parameters.Add("@id", SqlDbType.NVarChar, 50, "EmployeeID");
-            //mytable.Rows[2].SetField(0, "344-36-532");
-            mytable.Rows[3].SetField(1, "ABC");
-
-            //insertcmd.Parameters.Add("@name", SqlDbType.NVarChar, 50, "EmployeeName");
-            //insertcmd.Parameters.Add("@address", SqlDbType.NVarChar, 50, "EmployeeAddress");
-            //insertcmd.Parameters.Add("@city", SqlDbType.NVarChar, 50, "EmployeeCity");
-            //insertcmd.Parameters.Add("@state", SqlDbType.NVarChar, 2, "EmployeeState");
-            //insertcmd.Parameters.Add("@zip_code", SqlDbType.NVarChar, 10, "EmployeeZipCode");
-            //insertcmd.Parameters.Add("@supervisor", SqlDbType.NVarChar, 10, "EmployeeSupervisor");
-            //insertcmd.Parameters.Add("@date_hired", SqlDbType.DateTime, 11, "EmployeeDateHired");
 
             myadapter = new SqlDataAdapter();
-            myadapter.InsertCommand = insertcmd;
 
+            myadapter.InsertCommand = insertdb;
 
+            mytable = new DataTable();
+            myadapter.Fill(mytable);
+
+            dataGridView1.DataSource = mytable;
 
 
 
             try
             {
                 myadapter.Update(mytable);
+                myTrans.Commit();
                 MessageBox.Show("Data Inserted ");
 
             }
             catch (Exception ex)
             {
+                myTrans.Rollback();
+
                 MessageBox.Show("Invalid Insert ");
             }
 
